@@ -102,48 +102,7 @@ var github_user_orgs = function(username, callback) {
 //
 // Returns true/false.
 var github_user_starred_resume = function(username, page) {
-    var star  = false;
-    var repos = [];
-    var page  = (page ? page : 1);
-    var url   = 'https://api.github.com/users/' + username + '/starred?per_page=100&page=' + page;
-    var errorMsg;
-
-    $.ajax({
-        url: url,
-        async: false,
-        dataType: 'json',
-        success: function(data) {
-            repos = data;
-        },
-        error: function(e) {
-            if (e.status == 403) {
-                errorMsg = 'api_limit'
-            } else if (e.status == 404) {
-                errorMsg = 'not_found'
-            }
-        }
-    });
-
-    if (errorMsg === 'api_limit' || errorMsg === 'not_found') {
-        return errorMsg;
-    }
-
-    $.each(repos, function(i, repo) {
-        if (repo.full_name == "resume/resume.github.com") {
-            star = true;
-            return false; // stop iterating
-        }
-    });
-
-    if (star) {
-        return star;
-    }
-
-    if (repos.length == 100) {
-        star = github_user_starred_resume(username, page + 1);
-    }
-
-    return star;
+    return true
 }
 
 var run = function() {
